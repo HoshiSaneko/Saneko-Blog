@@ -3,21 +3,21 @@ import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } fro
 export const theme: ThemeUserConfig = {
   // [Basic]
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: 'Astro Theme Pure',
+  title: '星屿浅奈 ✧ Saneko',
   /** Will be used in index page & copyright declaration */
-  author: 'Pure Lab',
+  author: '星島 さねこ',
   /** Description metadata for your website. Can be used in page metadata. */
-  description: 'Stay hungry, stay foolish',
+  description: '做自己喜欢的事',
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
   favicon: '/favicon/favicon.ico',
   /** The default social card image for your site which should be a path to an image in the `public/` directory. */
   socialCard: '/images/social-card.png',
   /** Specify the default language for this site. */
   locale: {
-    lang: 'en-US',
-    attrs: 'en_US',
+    lang: 'zh-CN',
+    attrs: 'zh-CN',
     // Date locale
-    dateLocale: 'en-US',
+    dateLocale: 'zh-CN',
     dateOptions: {
       day: 'numeric',
       month: 'short',
@@ -48,11 +48,11 @@ export const theme: ThemeUserConfig = {
   /** Configure the header of your site. */
   header: {
     menu: [
-      { title: 'Blog', link: '/blog' },
-      { title: 'Docs', link: '/docs' },
-      { title: 'Projects', link: '/projects' },
-      { title: 'Links', link: '/links' },
-      { title: 'About', link: '/about' }
+      { title: '博客', link: '/blog' },
+      { title: '文档', link: '/docs' },
+      // { title: 'Projects', link: '/projects' },
+      { title: '友链', link: '/links' },
+      { title: '关于', link: '/about' }
     ]
   },
 
@@ -78,14 +78,14 @@ export const theme: ThemeUserConfig = {
     /** Enable displaying a “Astro & Pure theme powered” link in your site’s footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
-    social: { github: 'https://github.com/cworld1/astro-theme-pure' }
+    social: { github: 'https://github.com/HoshiSaneko/Saneko-Blog' }
   },
 
   // [Content]
   content: {
     /** External links configuration */
     externalLinks: {
-      content: ' ↗',
+      content: ' 🌊',
       /** Properties for the external links element */
       properties: {
         style: 'user-select:none'
@@ -112,10 +112,10 @@ export const integ: IntegrationUserConfig = {
     ],
     // Yourself link info
     applyTip: [
-      { name: 'Name', val: theme.title },
-      { name: 'Desc', val: theme.description || 'Null' },
-      { name: 'Link', val: 'https://astro-pure.js.org/' },
-      { name: 'Avatar', val: 'https://astro-pure.js.org/favicon/favicon.ico' }
+      { name: '名称', val: theme.author }, 
+      { name: '简介', val: '做自己喜欢的事'}, 
+      { name: '链接', val: 'https://saneko.github.io/' }, 
+      { name: '头像', val: 'https://saneko.github.io/favicon/favicon.ico' }
     ],
     // Cache avatars in `public/avatars/` to improve user experience.
     cacheAvatar: false
@@ -135,15 +135,15 @@ export const integ: IntegrationUserConfig = {
     // server: 'http://api.quotable.io/quotes/random?maxLength=60',
     // target: `(data) => data[0].content || 'Error'`
     // - DummyJSON
-    server: 'https://dummyjson.com/quotes/random',
-    target: `(data) => (data.quote.length > 80 ? \`\${data.quote.slice(0, 80)}...\` : data.quote || 'Error')`
+    server: 'https://v1.hitokoto.cn/?c=f', // c=f是影视类，更贴合治愈系中文文案
+    target: `(data) => (data.hitokoto.length > 80 ? \`\${data.hitokoto.slice(0, 80)}...\` : data.hitokoto || '星光小岛，浅海潮汐✨')`
   },
   // [Typography]
   // https://unocss.dev/presets/typography
   typography: {
     class: 'prose text-base',
     // The style of blockquote font `normal` / `italic` (default to italic in typography)
-    blockquoteStyle: 'italic',
+    blockquoteStyle: 'normal',
     // The style of inline code block `code` / `modern` (default to code in typography)
     inlineCodeBlockStyle: 'modern'
   },
@@ -161,7 +161,7 @@ export const integ: IntegrationUserConfig = {
   waline: {
     enable: true,
     // Server service link
-    server: 'https://astro-theme-pure-waline.arthals.ink/',
+    server: 'https://waline.atao.cyou',
     // Show meta info for comments
     showMeta: false,
     // Refer https://waline.js.org/en/guide/features/emoji.html

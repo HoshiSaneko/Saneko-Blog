@@ -103,6 +103,25 @@ export default defineConfig({
     AstroPureIntegration(config)
   ],
 
+  // [Vite] 配置监听，确保配置文件变化时能触发热重载
+  vite: {
+    server: {
+      watch: {
+        // 确保配置文件变化时能触发热重载
+        usePolling: false,
+        interval: 100
+      },
+      hmr: {
+        // 热模块替换配置
+        overlay: true
+      }
+    },
+    // 优化依赖预构建，包含配置文件
+    optimizeDeps: {
+      include: ['src/site.config.ts']
+    }
+  },
+
   // [Experimental]
   experimental: {
     // Allow compatible editors to support intellisense features for content collection entries
