@@ -3,11 +3,13 @@ import { PostPreview } from 'astro-pure/components/pages'
 import { getBlogCollection, groupCollectionsByYear, sortMDByDate } from 'astro-pure/server'
 import { Button } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
+import { buildBlogSlugMap } from '@/utils/blogSlug'
 
 export const prerender = true
 
 const allPosts = await getBlogCollection()
 const allPostsByDate = sortMDByDate(allPosts)
+const slugMap = Object.fromEntries(buildBlogSlugMap(allPostsByDate))
 const allPostsByYear = groupCollectionsByYear(allPostsByDate)
 
 const meta = {
@@ -41,7 +43,7 @@ const meta = {
             </p>
             <ul class='flex flex-col text-start'>
               {posts.map((p) => (
-                <PostPreview post={p} class='border-0 bg-transparent py-2' />
+                <PostPreview post={p} slugMap={slugMap} class='border-0 bg-transparent py-2' />
               ))}
             </ul>
           </div>

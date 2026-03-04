@@ -1,26 +1,26 @@
 ---
-title: 'User Components'
-description: 'Easily extend your content page more interactive'
+title: '主题组件'
+description: '在内容页中复用 UI 与样式，让页面更易扩展、更富交互'
 order: 1
 ---
 
 import { Aside, Tabs, TabItem, MdxRepl } from 'astro-pure/user'
 
-Components let you easily reuse a piece of UI or styling consistently. You can use them not just in `.astro` files, but also in `.mdx` files.
+组件可以让你在站点中一致地复用同一块 UI 或样式。不仅能在 `.astro` 文件中使用，也可以在 `.mdx` 文件中使用。
 
 <Aside type='tip'>
-[MDX](https://mdxjs.com/) is a format that lets you write JSX embedded inside Markdown. And it has no difference with markdown files in other ways.
+[MDX](https://mdxjs.com/) 是一种可在 Markdown 中嵌入 JSX 的格式，其余与普通 Markdown 无异。
 </Aside>
 
-For `.astro`, you can directly import and use components and use. An example will also shown in the first section.
+在 `.astro` 中可直接导入并使用组件，首节会给出示例。
 
 <Aside type='tip'>
-If you always import some components in your contents, you can use [astro-auto-import](https://github.com/delucis/astro-auto-import/tree/main/packages/astro-auto-import) to automatically import them instead of manually importing them in every file.
+若经常在内容中引用某些组件，可使用 [astro-auto-import](https://github.com/delucis/astro-auto-import/tree/main/packages/astro-auto-import) 自动导入，无需在每篇文件中手动 import。
 </Aside>
 
-## Containers
+## 容器类
 
-### Card
+### Card 卡片
 
 <MdxRepl>
 import { Card } from 'astro-pure/user'
@@ -71,7 +71,7 @@ import { Card } from 'astro-pure/user'
 </Tabs>
 </MdxRepl>
 
-### Collapse
+### Collapse 折叠
 
 <MdxRepl>
 import { Collapse } from 'astro-pure/user'
@@ -95,47 +95,46 @@ import { Collapse } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### Aside
+### Aside 旁注
 
 <MdxRepl width='100%'>
-<Aside>No type selected will default to 'note'. 😉</Aside>
+<Aside>不指定 type 时默认为「note」。😉</Aside>
 <Aside type="tip">
-Other content is also supported in aside! 😍
+旁注内也支持其他内容！😍
 
 ```js
-// A code snippet, for example.
+// 例如代码片段
 ```
 </Aside>
-<Aside type='caution' title='You should know it!'>Is your code buggy again? 🤨</Aside>
-<Aside type='danger'>Have you used `rm -rf` to clean your computer? 😡</Aside>
+<Aside type='caution' title='注意'>代码又出 bug 了吗？🤨</Aside>
+<Aside type='danger'>你用过 `rm -rf` 清理电脑吗？😡</Aside>
 
 <Fragment slot='desc'>
   ```jsx
   import { Aside } from 'astro-pure/user'
 
-  <Aside>No type selected will default to 'note'. 😉</Aside>
+  <Aside>不指定 type 时默认为「note」。😉</Aside>
   <Aside type="tip">
-  Other content is also supported in aside! 😍
-
+  旁注内也支持其他内容！😍
   // ```js
-  // A code snippet, for example.
+  // 例如代码片段
   // ```
   </Aside>
-  <Aside type='caution' title='You should know it!'>Is your code buggy again? 🤨</Aside>
-  <Aside type='danger'>Have you used `rm -rf` to clean your computer? 😡</Aside>
+  <Aside type='caution' title='注意'>代码又出 bug 了吗？🤨</Aside>
+  <Aside type='danger'>你用过 `rm -rf` 清理电脑吗？😡</Aside>
   ```
 </Fragment>
 </MdxRepl>
 
-This component also has a remark support version (which can directly use in `.md`), but not integrated in this theme. You can check [packages/starlight/integrations/asides.ts](https://github.com/withastro/starlight/blob/main/packages/starlight/integrations/asides.ts) for reference code.
+该组件也有基于 remark 的写法（可直接在 `.md` 中使用），本主题未内置。可参考 [Starlight asides](https://github.com/withastro/starlight/blob/main/packages/starlight/integrations/asides.ts)。
 
 ```md
 :::tip
-This theme author is a good guy.
+本主题作者是好人。
 :::
 ```
 
-### Tabs
+### Tabs 标签页
 
 <MdxRepl width='80%'>
 <Tabs>
@@ -186,11 +185,11 @@ This theme author is a good guy.
 </Fragment>
 </MdxRepl>
 
-You can combine any other components for the sclot `desc`. And `<Fragment>` will not be rendered as a parent html container tag.
+插槽 `desc` 内可组合任意其他组件。`<Fragment>` 不会渲染为实际的父级 HTML 容器。
 
-## List
+## 列表类
 
-### CardList
+### CardList 卡片列表
 
 <MdxRepl width='80%'>
 import { CardList } from 'astro-pure/user'
@@ -226,7 +225,7 @@ import { CardList } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### Timeline
+### Timeline 时间线
 
 <MdxRepl>
 import { Timeline } from 'astro-pure/user'
@@ -252,7 +251,7 @@ import { Timeline } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### Steps
+### Steps 步骤
 
 <MdxRepl width='80%'>
 <div>
@@ -286,9 +285,9 @@ How to Yi Jian San Lian:
 </Fragment>
 </MdxRepl>
 
-## Simple Text Render
+## 文本与简单渲染
 
-### Button
+### Button 按钮
 
 <MdxRepl>
 import { Button } from 'astro-pure/user'
@@ -316,7 +315,7 @@ import { Button } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### Spoiler
+### Spoiler 剧透遮挡
 
 <MdxRepl>
 import { Spoiler } from 'astro-pure/user'
@@ -327,12 +326,12 @@ import { Spoiler } from 'astro-pure/user'
   ```jsx
   import { Spoiler } from 'astro-pure/user'
 
-  <Spoiler>No one can find me.</Spoiler> But I am exposed here.
+  <Spoiler>没人能找到我。</Spoiler>但这里会暴露出来。
   ```
 </Fragment>
 </MdxRepl>
 
-### Formatted Date
+### FormattedDate 格式化日期
 
 <MdxRepl>
 import { FormattedDate } from 'astro-pure/user'
@@ -348,7 +347,7 @@ import { FormattedDate } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### Label
+### Label 标签
 
 <MdxRepl>
 import { Label } from 'astro-pure/user'
@@ -364,7 +363,7 @@ import { Label } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-### SVG Loader
+### Svg 内联 SVG
 
 <MdxRepl>
 import { Svg } from 'astro-pure/user'
@@ -380,24 +379,24 @@ import { Svg } from 'astro-pure/user'
 </Fragment>
 </MdxRepl>
 
-## Resources
+## 资源与图标
 
-### Icon
+### Icon 图标
 
 <MdxRepl width='100%'>
 <div>
 import { Icon } from 'astro-pure/user'
 
-Single use: <Icon name='rss' class='inline' />
+单次使用：<Icon name='rss' class='inline' />
 
-Preview all icons available (click button to copy):
+预览所有可用图标（点击按钮复制名称）：
 
 import { Icons as allIcons } from 'astro-pure/libs'
 
 <div class='flex flex-wrap gap-2'>
 {
   Object.keys(allIcons).map(icon => {
-    const script = `navigator.clipboard.writeText('${icon}');document.dispatchEvent(new CustomEvent('toast',{detail:{message:'Copied "${icon}" to clipboard!'}}))`
+    const script = `navigator.clipboard.writeText('${icon}');document.dispatchEvent(new CustomEvent('toast',{detail:{message:'已复制 "${icon}"'}}))`
     return (
       <Button as='button' type='button' class='cursor-pointer' onClick={script}>
         <Icon slot='before' name={icon} />
@@ -413,9 +412,9 @@ import { Icons as allIcons } from 'astro-pure/libs'
   ```jsx
   import { Icon } from 'astro-pure/user'
 
-  Single use: <Icon name='rss' class='inline' />
+  单次使用：<Icon name='rss' class='inline' />
 
-  Preview all icons available (click button to copy):
+  预览所有可用图标（点击按钮复制名称）：
 
   import { Icons as allIcons } from 'astro-pure/libs'
   import { Button } from 'astro-pure/user'
@@ -423,7 +422,7 @@ import { Icons as allIcons } from 'astro-pure/libs'
   <div class='flex flex-wrap gap-2'>
   {
     Object.keys(allIcons).map(icon => {
-      const script = `navigator.clipboard.writeText('${icon}');document.dispatchEvent(new CustomEvent('toast',{detail:{message:'Copied "${icon}" to clipboard!'}}))`
+      const script = `navigator.clipboard.writeText('${icon}');document.dispatchEvent(new CustomEvent('toast',{detail:{message:'已复制 "${icon}"'}}))`
       return (
         <Button as='button' type='button' class='cursor-pointer' onclick={script}>
           <Icon slot='before' name={icon} />
@@ -437,4 +436,4 @@ import { Icons as allIcons } from 'astro-pure/libs'
 </Fragment>
 </MdxRepl>
 
-There's also some [Advanced Components](/docs/integrations/advanced), which may suit for you. Hope you enjoy using these components!
+更多能力可参考 [高级组件](/docs/integrations/advanced)。祝使用愉快！

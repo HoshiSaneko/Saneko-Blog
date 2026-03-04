@@ -7,9 +7,11 @@ import checkFunc from './check.mjs'
 import minimist from './libs/minimist.cjs'
 import newFunc from './new.mjs'
 
-const args = minimist(process.argv.slice(2))
+// 只解析第一个参数（命令名），避免解析其他参数时出错
+const rawArgs = process.argv.slice(2)
+const command = rawArgs[0] || 'help'
 
-switch (args._[0]) {
+switch (command) {
   case 'check':
     await checkFunc()
     break

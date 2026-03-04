@@ -129,6 +129,14 @@ export const ThemeConfigSchema = () =>
     footer: z.object({
       /** The footer content for your site. */
       year: z.string().describe('The footer content for your site.'),
+      /** ICP filing info (e.g. 京ICP备xxx号), shown next to copyright when set. */
+      icp: z
+        .object({
+          title: z.string().describe('ICP label, e.g. 京ICP备12345678号'),
+          link: z.string().describe('ICP verification URL')
+        })
+        .optional()
+        .describe('ICP filing info for your site.'),
       /** The footer links for your site. */
       links: z
         .array(
@@ -154,19 +162,23 @@ export const ThemeConfigSchema = () =>
 
       /**
        * Optional details about the social media accounts for this site.
-       *
-       * @example
-       * social: {
-       *   discord: 'https://astro.build/chat',
-       *   github: 'https://github.com/withastro/starlight',
-       *   gitlab: 'https://gitlab.com/delucis',
-       *   threads: 'https://www.threads.net/@nmoodev',
-       *   twitch: 'https://www.twitch.tv/bholmesdev',
-       *   twitter: 'https://twitter.com/astrodotbuild',
-       *   youtube: 'https://youtube.com/@astrodotbuild',
-       * }
        */
-      social: SocialLinksSchema()
+      social: SocialLinksSchema(),
+
+      /** Optional details about the about section in homepage. */
+      about: z
+        .object({
+          intro: z.string().describe('Introduction'),
+          bio: z.string().describe('Bio'),
+          motto: z.string().describe('Motto'),
+          spoiler: z.string().optional().describe('Spoiler'),
+          mbti: z.string().optional().describe('MBTI'),
+          hobbies: z.string().array().optional().describe('Hobbies')
+        })
+        .optional()
+    }),
+    home: z.object({
+      location: z.string().default('Somewhere')
     }),
 
     content: z.object({
@@ -185,7 +197,36 @@ export const ThemeConfigSchema = () =>
 
       /** Share buttons to show */
       share: ShareSchema()
-    })
+    }),
+
+    /** Projects configuration */
+    projects: z.array(
+      z.object({
+        title: z.string().describe('Project title'),
+        description: z.string().describe('Project description'),
+        link: z.string().describe('Project link'),
+        date: z.string().optional().describe('Project date')
+      })
+    ).optional(),
+
+    /** Education configuration */
+    education: z.array(
+      z.object({
+        title: z.string().describe('Education title'),
+        date: z.string().optional().describe('Education date'),
+        image: z.string().optional().describe('Education background image')
+      })
+    ).optional(),
+
+    /** Certifications configuration */
+    certifications: z.array(
+      z.object({
+        title: z.string().describe('Certification title'),
+        description: z.string().describe('Certification description'),
+        link: z.string().describe('Certification link'),
+        date: z.string().optional().describe('Certification date')
+      })
+    ).optional()
   })
 
 export type ThemeUserConfig = z.input<ReturnType<typeof ThemeConfigSchema>>

@@ -35,6 +35,8 @@ const blog = defineCollection({
       tags: z.array(z.string()).default([]).transform(removeDupsAndLowerCase),
       language: z.string().optional(),
       draft: z.boolean().default(false),
+      /** URL slug (no date/folder). If omitted, last path segment of file path is used. */
+      slug: z.string().optional(),
       // Special fields
       comment: z.boolean().default(true)
     })

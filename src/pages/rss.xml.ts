@@ -10,6 +10,7 @@ import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 
 import { getBlogCollection, sortMDByDate } from 'astro-pure/server'
+import { buildBlogSlugMap } from '@/utils/blogSlug'
 import config from 'virtual:config'
 
 // Get dynamic import of images as a map collection
@@ -55,6 +56,7 @@ const renderContent = async (post: CollectionEntry<'blog'>, site: URL) => {
 
 const GET = async (context: AstroGlobal) => {
   const allPostsByDate = sortMDByDate(await getBlogCollection()) as CollectionEntry<'blog'>[]
+  const slugMap = buildBlogSlugMap(allPostsByDate)
   const siteUrl = context.site ?? new URL(import.meta.env.SITE)
 
   return rss({
@@ -70,7 +72,7 @@ const GET = async (context: AstroGlobal) => {
     items: await Promise.all(
       allPostsByDate.map(async (post) => ({
         pubDate: post.data.publishDate,
-        link: `/blog/${post.id}`,
+        link: `/blog/${slugMap.get(post.id) ?? post.id}`,
         customData: `<h:img src="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />
           <enclosure url="${typeof post.data.heroImage?.src === 'string' ? post.data.heroImage?.src : post.data.heroImage?.src.src}" />`,
         content: await renderContent(post, siteUrl),

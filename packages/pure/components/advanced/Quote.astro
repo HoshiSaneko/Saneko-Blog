@@ -28,7 +28,7 @@ const { class: className } = Astro.props
       quoteEl.innerText = sentence
     }
 
-    async fetchQuote(retries = 2) {
+    async fetchQuote(retries = 2): Promise<void> {
       try {
         // 添加超时控制
         const controller = new AbortController()

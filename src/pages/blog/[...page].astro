@@ -7,16 +7,18 @@ import { getBlogCollection, getUniqueTagsWithCount, sortMDByDate } from 'astro-p
 import { Button, Icon } from 'astro-pure/user'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import config from '@/site-config'
+import { buildBlogSlugMap } from '@/utils/blogSlug'
 
 export const prerender = true
 
 export const getStaticPaths = (async ({ paginate }) => {
   const collections = sortMDByDate(await getBlogCollection())
+  const slugMap = Object.fromEntries(buildBlogSlugMap(collections))
   const uniqueTags = getUniqueTagsWithCount(collections).map(([tag]) => tag)
   const collectionsCount = collections.length
   return paginate(collections, {
     pageSize: config.content.blogPageSize,
-    props: { uniqueTags, collectionsCount }
+    props: { uniqueTags, collectionsCount, slugMap }
   })
 }) satisfies GetStaticPaths
 
@@ -24,9 +26,10 @@ interface Props {
   page: Page<CollectionEntry<'blog'>>
   uniqueTags: string[]
   collectionsCount: number
+  slugMap: Record<string, string>
 }
 
-const { page, uniqueTags, collectionsCount } = Astro.props
+const { page, uniqueTags, collectionsCount, slugMap } = Astro.props
 
 const meta = {
   description: 'Some posts or archives of my blog',
@@ -73,7 +76,7 @@ const paginationProps = {
             {/* posts */}
             <ul class='flex flex-col gap-y-4 text-start'>
               {page.data.map((post) => (
-                <PostPreview {post} detailed />
+                <PostPreview {post} {slugMap} detailed />
               ))}
             </ul>
             <Paginator {...paginationProps} />

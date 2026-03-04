@@ -1,7 +1,7 @@
 /* Theme */
 :root {
   /* Primary */
-  --primary: 200 29% 45%;
+  --primary: 17 13% 49%;
   /* Foreground */
   --foreground: 240 10% 3.9%;
   --muted-foreground: 240 3.8% 28.1%;
@@ -18,7 +18,7 @@
 }
 .dark {
   /* Primary */
-  --primary: 195 95% 85%;
+  --primary: 17 20% 70%;
   /* Foreground */
   --foreground: 0 0% 98%;
   --muted-foreground: 240 5% 74.9%;
@@ -45,4 +45,18 @@ a {
   &:hover {
     color: hsl(var(--primary) / var(--un-text-opacity, 1));
   }
+}
+
+/* Avatar Glow Animation */
+@keyframes avatar-ripple {
+  0% {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4), 0 0 0 0 hsl(var(--primary) / 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 10px hsl(var(--primary) / 0), 0 0 0 20px hsl(var(--primary) / 0);
+  }
+}
+
+.avatar-glow {
+  animation: avatar-ripple 2s linear infinite;
 }

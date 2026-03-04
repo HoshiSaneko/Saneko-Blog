@@ -59,13 +59,15 @@ const typographyConfig: TypographyOptions = {
       'word-break': 'break-word',
       'overflow-wrap': 'anywhere'
     },
-    // Inline code
+    // Inline code（与正文字体一致）
     ':not(pre) > code': {
+      'font-family': 'inherit',
       'white-space': 'pre-wrap',
       'word-break': 'break-all'
     },
     ...(typographyCustom.inlineCodeBlockStyle === 'modern' && {
       ':not(pre) > code': {
+        'font-family': 'inherit',
         padding: '0.3em 0.5em',
         border: `1px solid ${border}`,
         'border-radius': radius,
@@ -166,7 +168,8 @@ const rules: Rule<object>[] = [
       overflow: 'hidden',
       display: '-webkit-box',
       '-webkit-box-orient': 'vertical',
-      '-webkit-line-clamp': d
+      '-webkit-line-clamp': d,
+      'text-overflow': 'ellipsis'
     })
   ]
 ]

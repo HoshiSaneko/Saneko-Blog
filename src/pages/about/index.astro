@@ -1,12 +1,19 @@
 ---
+import { type ImageMetadata } from 'astro'
 import { Button, Collapse, Spoiler, Timeline } from 'astro-pure/user'
 import PageLayout from '@/layouts/CommonPage.astro'
 import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
+import ProjectCard from '@/components/home/ProjectCard.astro'
+import Section from '@/components/home/Section.astro'
+import config from '@/site-config'
+import { tools, socialNetworks, gossips, blogHistory, devices } from '@/site-config'
 
 const headings = [
+  { depth: 2, slug: 'education', text: 'Education' },
   { depth: 2, slug: 'hobbies', text: 'Hobbies' },
   { depth: 2, slug: 'tools', text: 'Tools' },
+  { depth: 2, slug: 'devices', text: 'Devices' },
   { depth: 2, slug: 'social-networks', text: 'Social Networks' },
   { depth: 2, slug: 'gossips', text: 'Gossips' },
   { depth: 2, slug: 'about-blog', text: 'About Blog' }
@@ -14,237 +21,253 @@ const headings = [
 ---
 
 <PageLayout title='About' {headings} comment>
-  <p>Developer / Designer</p>
+  <p>{config.footer.about?.intro}</p>
+  <p>{config.footer.about?.bio}</p>
   <p>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel, at eum oratio
-    possit voluptatum.
+    Motto: {config.footer.about?.motto} <Spoiler>{config.footer.about?.spoiler}</Spoiler>
   </p>
-  <p>
-    Motto: Stay hungry, Stay foolish. <Spoiler>这里可以夹私货，比如为什么要演奏春日影！</Spoiler>
-  </p>
-  <Button title='Sponsor Me' class='w-fit' href='/projects#sponsorship' variant='ahead' />
+  {
+    config.footer.about?.mbti && (
+      <p>
+        MBTI: <span class='font-medium'>{config.footer.about.mbti}</span>
+      </p>
+    )
+  }
 
   {/* general-talk */}
-  <h2 id='hobbies'>Hobbies</h2>
-  <ul>
-    <li>Lorem ipsum dolor sit amet, vidit suscipit at mei.</li>
-    <li>
-      Quem denique mea id. Usu ei regione indoctum dissentiunt, cu meliore fuisset mei, vel quod
-      voluptua ne.
-    </li>
-    <li>Ex dicat impedit mel, at eum oratio possit voluptatum.</li>
-    <li>Impetus fuisset ullamcorper pri cu, his posse iisque ad, aliquam honestatis usu id.</li>
-  </ul>
+  {
+    config.footer.about?.hobbies && (
+      <>
+        <h2 id='hobbies'>Hobbies</h2>
+        <ul>
+          {config.footer.about.hobbies.map((hobby) => (
+            <li>{hobby}</li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+
+  {/* education */}
+  {
+    config.education && config.education.length > 0 && (
+      <>
+        <h2 id='education'>Education</h2>
+        <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+          {config.education.map((item) => (
+            <ProjectCard
+              heading={item.title}
+              subheading={item.date || ''}
+              imagePath={item.image || ''}
+              href=''
+              class='pointer-events-none h-32 sm:h-36 no-underline [&_.project-card-fg]:items-start [&_.project-card-fg]:justify-end [&_.project-card-fg]:px-4 [&_.project-card-fg]:pb-3 [&_.project-card-fg]:pt-0 [&_.project-card-fg]:gap-0 [&_h2]:mb-0 [&_h2]:no-underline [&_p]:text-xs [&_p]:text-muted-foreground [&_p]:mt-0 [&_p]:no-underline'
+            />
+          ))}
+        </div>
+      </>
+    )
+  }
 
   {/* tools */}
   <h2 id='tools'>Tools</h2>
   <p>Current support tools as follow:</p>
-  <ToolSection
-    class='mb-5'
-    title='Design'
-    tools={[
-      {
-        name: 'Photoshop',
-        description: 'Picture Editing',
-        href: 'https://www.adobe.com/products/photoshop',
-        icon: import('@/assets/tools/photoshop.svg?raw')
-      },
-      {
-        name: 'Illustrator',
-        description: 'Vector Drawing',
-        href: 'https://www.adobe.com/products/illustrator',
-        icon: import('@/assets/tools/illustrator.svg?raw')
-      },
-      {
-        name: 'After Effects',
-        description: 'Motion Graphics',
-        href: 'https://www.adobe.com/products/aftereffects',
-        icon: import('@/assets/tools/aftereffects.svg?raw')
-      },
-      {
-        name: 'Premiere Pro',
-        description: 'Video Editing',
-        href: 'https://www.adobe.com/products/premiere',
-        icon: import('@/assets/tools/premiere.svg?raw')
-      }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Productivity'
-    tools={[
-      {
-        name: 'Chrome',
-        description: 'Browser',
-        href: 'https://www.google.com/chrome/',
-        icon: import('@/assets/tools/chrome.svg?raw')
-      },
-      {
-        name: 'Firefox',
-        description: 'Browser',
-        href: 'https://www.mozilla.org/en-US/firefox',
-        icon: import('@/assets/tools/firefox.svg?raw')
-      },
-      {
-        name: 'Notion',
-        description: 'Note Taking',
-        href: 'https://www.notion.so/',
-        icon: import('@/assets/tools/notion.svg?raw')
-      },
-      {
-        name: 'Typora',
-        description: 'Markdown Editor',
-        href: 'https://typora.io/',
-        icon: import('@/assets/tools/typora.svg?raw')
-      }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Development'
-    tools={[
-      {
-        name: 'VS Code',
-        description: 'IDE',
-        href: 'https://code.visualstudio.com/',
-        icon: import('@/assets/tools/vscode.svg?raw')
-      },
-      {
-        name: 'Neovim',
-        description: 'IDE',
-        href: 'https://neovim.io/',
-        icon: import('@/assets/tools/neovim.svg?raw')
-      },
-      {
-        name: 'Sublime Text',
-        description: 'IDE',
-        href: 'https://www.sublimetext.com/',
-        icon: import('@/assets/tools/sublime.svg?raw')
-      }
-    ]}
-  />
-  <ToolSection
-    class='mb-5'
-    title='Environment'
-    tools={[
-      {
-        name: 'Arch Linux',
-        description: 'Linux Distribution',
-        href: 'https://archlinux.org/',
-        icon: import('@/assets/tools/archlinux.svg?raw')
-      },
-      {
-        name: 'Ubuntu 24.04 LTS',
-        description: 'Linux Distribution',
-        href: 'https://ubuntu.com/',
-        icon: import('@/assets/tools/ubuntu.svg?raw')
-      },
-      {
-        name: 'MacOS Tahoe',
-        description: 'MacBook Air',
-        href: 'https://www.apple.com/macos/',
-        icon: import('@/assets/tools/apple.svg?raw')
-      },
-      {
-        name: 'Windows 11',
-        description: 'Framework Laptop 16',
-        href: 'https://news.microsoft.com/windows11-general-availability/',
-        icon: import('@/assets/tools/windows11.svg?raw')
-      }
-    ]}
-  />
+  {
+    tools.map((section) => {
+      // 处理工具图标导入
+      const toolsWithIcons = section.items.map((tool: any) => {
+        const toolWithIcon: {
+          name: string
+          description: string
+          href: string
+          icon?: any
+          darkIcon?: any
+        } = {
+          name: tool.name,
+          description: tool.description,
+          href: tool.href
+        }
+        
+        // 根据配置中的图标路径字符串，动态导入对应的图标
+        // 注意：Astro 需要静态可分析的导入路径，所以这里使用条件语句
+        if (tool.icon) {
+          const iconPath = tool.icon.replace('@/', '@/')
+          // 根据路径导入对应的图标
+          if (iconPath.includes('photoshop')) {
+            toolWithIcon.icon = import('@/assets/tools/photoshop.svg?raw')
+          } else if (iconPath.includes('illustrator')) {
+            toolWithIcon.icon = import('@/assets/tools/illustrator.svg?raw')
+          } else if (iconPath.includes('aftereffects')) {
+            toolWithIcon.icon = import('@/assets/tools/aftereffects.svg?raw')
+          } else if (iconPath.includes('premiere')) {
+            toolWithIcon.icon = import('@/assets/tools/premiere.svg?raw')
+          } else if (iconPath.includes('cursor')) {
+            toolWithIcon.icon = import('@/assets/tools/cursor.svg?raw')
+          } else if (iconPath.includes('chrome')) {
+            toolWithIcon.icon = import('@/assets/tools/chrome.svg?raw')
+          } else if (iconPath.includes('firefox')) {
+            toolWithIcon.icon = import('@/assets/tools/firefox.svg?raw')
+          } else if (iconPath.includes('notion')) {
+            toolWithIcon.icon = import('@/assets/tools/notion.svg?raw')
+          } else if (iconPath.includes('typora')) {
+            toolWithIcon.icon = import('@/assets/tools/typora.svg?raw')
+          } else if (iconPath.includes('sourcetree')) {
+            toolWithIcon.icon = import('@/assets/tools/sourcetree.svg?raw')
+          } else if (iconPath.includes('vscode')) {
+            toolWithIcon.icon = import('@/assets/tools/vscode.svg?raw')
+          } else if (iconPath.includes('neovim')) {
+            toolWithIcon.icon = import('@/assets/tools/neovim.svg?raw')
+          } else if (iconPath.includes('sublime')) {
+            toolWithIcon.icon = import('@/assets/tools/sublime.svg?raw')
+          } else if (iconPath.includes('visualstudio')) {
+            toolWithIcon.icon = import('@/assets/tools/visualstudio.svg?raw')
+          } else if (iconPath.includes('androidstudio')) {
+            toolWithIcon.icon = import('@/assets/tools/androidstudio.svg?raw')
+          } else if (iconPath.includes('archlinux')) {
+            toolWithIcon.icon = import('@/assets/tools/archlinux.svg?raw')
+          } else if (iconPath.includes('ubuntu')) {
+            toolWithIcon.icon = import('@/assets/tools/ubuntu.svg?raw')
+          } else if (iconPath.includes('apple')) {
+            toolWithIcon.icon = import('@/assets/tools/apple.svg?raw')
+          } else if (iconPath.includes('windows11')) {
+            toolWithIcon.icon = import('@/assets/tools/windows11.svg?raw')
+          } else if (iconPath.includes('figma')) {
+            toolWithIcon.icon = import('@/assets/tools/figma.svg?raw')
+          } else if (iconPath.includes('docker')) {
+            toolWithIcon.icon = import('@/assets/tools/docker.svg?raw')
+          }
+          // 如果路径不匹配，则不设置图标（将显示文字）
+        }
+        
+        // 处理暗色模式图标（类似逻辑）
+        if (tool.darkIcon && typeof tool.darkIcon === 'string') {
+          const darkIconPath = tool.darkIcon.replace('@/', '@/')
+          // 可以根据需要添加暗色模式图标的导入逻辑
+        }
+        
+        return toolWithIcon
+      })
+      
+      return (
+        <ToolSection
+          class='mb-5'
+          title={section.title}
+          tools={toolsWithIcons}
+        />
+      )
+    })
+  }
+
+  {/* devices */}
+  <h2 id='devices'>Devices</h2>
+  <p>My electronic devices as follow:</p>
+  {
+    (() => {
+      // 处理设备图标导入
+      const devicesWithIcons = devices.map((device: any) => {
+        const deviceWithIcon: {
+          name: string
+          description: string
+          href: string
+          icon?: any
+          darkIcon?: any
+        } = {
+          name: device.name,
+          description: device.description,
+          href: device.href
+        }
+        
+        // 处理设备图标导入
+        if (device.icon) {
+          const iconPath = device.icon.replace('@/', '@/')
+          // 根据图标路径导入对应的图标
+          if (iconPath.includes('phone')) {
+            deviceWithIcon.icon = import('@/assets/tools/phone.svg?raw')
+          } else if (iconPath.includes('tablet')) {
+            deviceWithIcon.icon = import('@/assets/tools/tablet.svg?raw')
+          } else if (iconPath.includes('laptop')) {
+            deviceWithIcon.icon = import('@/assets/tools/laptop.svg?raw')
+          } else if (iconPath.includes('airpods')) {
+            deviceWithIcon.icon = import('@/assets/tools/airpods.svg?raw')
+          } else if (iconPath.includes('headphones')) {
+            deviceWithIcon.icon = import('@/assets/tools/headphones.svg?raw')
+          } else if (iconPath.includes('speaker')) {
+            deviceWithIcon.icon = import('@/assets/tools/speaker.svg?raw')
+          } else if (iconPath.includes('camera')) {
+            deviceWithIcon.icon = import('@/assets/tools/camera.svg?raw')
+          } else if (iconPath.includes('lens')) {
+            deviceWithIcon.icon = import('@/assets/tools/lens.svg?raw')
+          } else if (iconPath.includes('apple')) {
+            deviceWithIcon.icon = import('@/assets/tools/apple.svg?raw')
+          } else if (iconPath.includes('huawei')) {
+            deviceWithIcon.icon = import('@/assets/tools/huawei.svg?raw')
+          } else if (iconPath.includes('sony')) {
+            deviceWithIcon.icon = import('@/assets/tools/sony.svg?raw')
+          } else if (iconPath.includes('tamron')) {
+            deviceWithIcon.icon = import('@/assets/tools/tamron.svg?raw')
+          }
+        }
+        
+        return deviceWithIcon
+      })
+      
+      return (
+        <ToolSection
+          class='mb-5'
+          title='Devices'
+          tools={devicesWithIcons}
+        />
+      )
+    })()
+  }
 
   {/* social-networks */}
-  <h2 id='social-networks'>Social Networks</h2>
-  <p>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne.
-  </p>
-  <Substats
-    stats={[
-      {
-        platform: 'GitHub',
-        icon: 'github',
-        link: 'https://github.com/cworld1',
-        text: 'followers',
-        api: 'github/cworld1'
-      },
-      {
-        platform: 'Telegram',
-        icon: 'telegram',
-        color: '#2ca5e0',
-        link: 'https://t.me/cworld0_cn',
-        text: 'subscribers',
-        api: 'telegram/cworld0_cn'
-      },
-      {
-        platform: 'Steam',
-        icon: 'steam',
-        color: '#50769d',
-        link: 'https://steamcommunity.com/id/cworld',
-        text: 'games',
-        api: 'steamgames/76561199021278120'
-      }
-    ]}
-  />
+  {
+    socialNetworks && (
+      <>
+        <h2 id='social-networks'>Social Networks</h2>
+        <p class='flex items-center gap-2'>
+          <span>{socialNetworks.description}</span>
+          <span class='text-sm'>
+            <Spoiler>别只是偷看啦~关注一下吧~ ✨</Spoiler>
+          </span>
+        </p>
+        <Substats stats={socialNetworks.stats as any} />
+      </>
+    )
+  }
 
   {/* gossips */}
   <h2 id='gossips'>Gossips</h2>
-  <Collapse title='Lorem ipsum'>
-    Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
-    dissentiunt, cu meliore fuisset mei, vel quod voluptua ne. Ex dicat impedit mel, at eum oratio
-    possit voluptatum.
-  </Collapse>
+  {
+    gossips && gossips.map((gossip) => (
+      <Collapse title={gossip.title}>
+        {gossip.content.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </Collapse>
+    ))
+  }
 
   {/* about-blog */}
   <h2 id='about-blog'>About Blog</h2>
-  <p>Website history:</p>
-  <Timeline
-    events={[
-      {
-        date: '2024-04-29',
-        content:
-          'Website refactored using <a href="https://astro.build/" target="_blank">Astro</a> and <a href="https://github.com/srleom/astro-theme-resume" target="_blank">Astro Theme Resume</a>'
-      },
-      {
-        date: '2024-07-26',
-        content:
-          'Website abstracted as a theme and published on <a href="https://github.com/cworld1/astro-theme-pure"target="_blank">Github</a>'
-      },
-      {
-        date: '2024-07-27',
-        content: 'Began writing website docs'
-      }
-    ]}
-  />
-  <p>
-    The smooth operation and personalized customization of website also rely on the resources and
-    technical support provided by the following excellent projects/service providers:
-  </p>
-  <ul>
-    <li>Domain: <a href='#' target='_blank'>Vercel</a></li>
-    <li>
-      Framework & Theme: <a href='https://astro.build/' target='_blank'>Astro</a> + <a
-        href='https://github.com/cworld1/astro-theme-pure'
-        target='_blank'>Astro Theme Pure</a
-      >
-    </li>
-    <li>
-      Site hosting: <a href='https://vercel.com/' target='_blank'>Vercel</a>
-    </li>
-    <li>
-      CI/CD: <a href='https://vercel.com/workflow' target='_blank'>Vercel Workflow</a>
-    </li>
-    <li>Comment system: <a href='https://waline.js.org' target='_blank'>Waline</a></li>
-    <li>
-      Visits: <a href='https://supabase.com/' target='_blank'>Supabase</a> +
-      <a href='https://waline.js.org/' target='_blank'>Waline</a>
-    </li>
-    <li>
-      Other statistics: <a href='https://github.com/spencerwooo/substats' target='_blank'
-        >Substats</a
-      >
-    </li>
-  </ul>
+  {
+    blogHistory && (
+      <>
+        <p>{blogHistory.title}</p>
+        <Timeline events={blogHistory.events} />
+      </>
+    )
+  }
+  {
+    blogHistory?.resources && (
+      <>
+        <p>{blogHistory.resources.description}</p>
+        <ul>
+          {blogHistory.resources.items.map((item) => (
+            <li set:html={`${item.label}: ${item.content}`} />
+          ))}
+        </ul>
+      </>
+    )
+  }
 </PageLayout>

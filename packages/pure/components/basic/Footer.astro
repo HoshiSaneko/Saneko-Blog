@@ -33,10 +33,18 @@ const footerLink1 = footerConf.links?.filter(({ pos }) => pos === 1) || []
             </div>
           )
         }
-        {/* Position 2 */}
+        {/* Position 2: 版权行（year + author + icp + pos2 links） */}
         <div>
           {config.footer.year}
           {config.author}
+          {
+            footerConf.icp && (
+              <>
+                &nbsp;·&nbsp;
+                <a href={footerConf.icp.link} target='_blank' rel='noopener noreferrer' class='text-sm'>{footerConf.icp.title}</a>
+              </>
+            )
+          }
           {
             footerConf.links && footerConf.links.length > 0 && (
               <>
@@ -70,11 +78,36 @@ const footerLink1 = footerConf.links?.filter(({ pos }) => pos === 1) || []
       <div class='flex items-center gap-x-4'>
         {
           footerConf.social &&
-            Object.entries(footerConf.social).map(([platform, { label, url }]) => (
-              <a href={url} aria-label={label}>
-                <Icon name={platform as keyof typeof footerConf.social} />
-              </a>
-            ))
+            Object.entries(footerConf.social).map(([platform, { label, url }]) => {
+              // 排除 Steam
+              if (platform === 'steam') return null
+              
+              // 抖音：点击时复制 ID，而不是跳转
+              if (platform === 'tiktok' && url) {
+                const idMatch = url.match(/douyin\.com\/user\/([^/]+)/)
+                const id = idMatch?.[1]
+                if (id) {
+                  const copyScript = `
+                    event.preventDefault();
+                    navigator.clipboard.writeText('${id}');
+                    document.dispatchEvent(new CustomEvent('toast', {
+                      detail: { message: '已复制 ID: ${id}' }
+                    }));
+                  `
+                  return (
+                    <a href='#' aria-label={label} onclick={copyScript}>
+                      <Icon name={platform as keyof typeof footerConf.social} />
+                    </a>
+                  )
+                }
+              }
+
+              return (
+                <a href={url} aria-label={label}>
+                  <Icon name={platform as keyof typeof footerConf.social} />
+                </a>
+              )
+            })
         }
       </div>
     </div>

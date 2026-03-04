@@ -10,6 +10,8 @@ interface SubstatsItem {
   text: string
   api?: string
   count?: number
+  copyId?: boolean // 是否点击时复制 ID
+  id?: string // 存储原始 ID 用于复制
 }
 
 type Props = {
@@ -25,7 +27,14 @@ async function fetchCount(item: SubstatsItem) {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 8000) // 8秒超时
     
-    const response = await fetch(`https://api.swo.moe/stats/${item.api}`, {
+    const apiUrl = `https://api.swo.moe/stats/${item.api}`
+    
+    // 开发环境下输出 API URL 用于调试
+    if (import.meta.env.DEV) {
+      console.log(`[Substats] Fetching ${item.platform}: ${apiUrl}`)
+    }
+    
+    const response = await fetch(apiUrl, {
       signal: controller.signal,
       // 添加重试友好的配置
       headers: {
@@ -40,6 +49,12 @@ async function fetchCount(item: SubstatsItem) {
     }
     
     const data = await response.json()
+    
+    // 开发环境下输出响应数据用于调试
+    if (import.meta.env.DEV) {
+      console.log(`[Substats] Response for ${item.platform}:`, data)
+    }
+    
     if (data.failed) {
       throw new Error(data.message || 'API returned failed status')
     } else {
@@ -67,29 +82,63 @@ await Promise.all(stats.map(fetchCount))
 
 <div class='grid grid-cols-1 gap-3 rounded-xl border p-2 sm:grid-cols-2 sm:p-3'>
   {
-    stats.map(({ link, platform, icon, color, count, text }) => (
-      <a
-        class='group text-muted-foreground no-underline'
-        href={link}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        <div class='flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'>
-          {icon && <Icon name={icon as iconsType} color={color} />}
-          <div class='flex-1 text-foreground transition-colors group-hover:text-primary'>
-            {platform}
-          </div>
-          {count ? (
-            <div class='flex items-center gap-1.5'>
-              <samp>{count}</samp>
-              <span class='text-sm font-normal'>{text}</span>
+    stats.map(({ link, platform, icon, color, count, text, copyId, id }) => {
+      if (copyId && id) {
+        // 抖音：点击时复制 ID
+        const copyScript = `
+          navigator.clipboard.writeText('${id}');
+          document.dispatchEvent(new CustomEvent('toast', {
+            detail: { message: '已复制 ID: ${id}' }
+          }));
+        `
+        return (
+          <div
+            class='group cursor-pointer text-muted-foreground'
+            onclick={copyScript}
+          >
+            <div class='flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'>
+              {icon && <Icon name={icon as iconsType} color={color} />}
+              <div class='flex-1 text-foreground transition-colors group-hover:text-primary'>
+                {platform}
+              </div>
+              {count ? (
+                <div class='flex items-center gap-1.5'>
+                  <samp>{count}</samp>
+                  <span class='text-sm font-normal'>{text}</span>
+                </div>
+              ) : (
+                'null'
+              )}
             </div>
-          ) : (
-            'null'
-          )}
-        </div>
-      </a>
-    ))
+          </div>
+        )
+      } else {
+        // 其他平台：正常跳转
+        return (
+          <a
+            class='group text-muted-foreground no-underline'
+            href={link}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <div class='flex items-center gap-3 rounded-lg border border-transparent px-3 py-2 transition-all hover:border-border hover:bg-muted'>
+              {icon && <Icon name={icon as iconsType} color={color} />}
+              <div class='flex-1 text-foreground transition-colors group-hover:text-primary'>
+                {platform}
+              </div>
+              {count ? (
+                <div class='flex items-center gap-1.5'>
+                  <samp>{count}</samp>
+                  <span class='text-sm font-normal'>{text}</span>
+                </div>
+              ) : (
+                'null'
+              )}
+            </div>
+          </a>
+        )
+      }
+    })
   }
 </div>
 <div class='mt-2 text-right text-sm'>
