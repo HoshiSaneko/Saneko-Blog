@@ -549,7 +549,7 @@ export const integ: IntegrationUserConfig = {
       { name: '名称', val: theme.author }, 
       { name: '简介', val: 'Do the things that I like.'}, 
       { name: '链接', val: 'https://saneko.me' }, 
-      { name: '头像', val: 'https://cdn.blog.saneko.me//favicon.png' }
+      { name: '头像', val: 'https://cdn.blog.saneko.me/Web/Avatar.png' }
     ],
     // Cache avatars in `public/avatars/` to improve user experience.
     cacheAvatar: false
