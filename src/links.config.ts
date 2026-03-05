@@ -87,10 +87,10 @@ export function getLinkBadge(link: LinkItem | string): BadgeConfig & { days: num
 // 普通友链（包括推荐、失联等）
 export const links: LinkItem[] = [
   {
-    name: 'Astro Theme Pure',
-    description: 'Stay hungry, stay foolish',
-    url: 'https://astro-pure.js.org/',
-    avatar: 'https://astro-pure.js.org/favicon/favicon.ico',
+    name: "CWorld Site",
+    description: "求知若愚，虚怀若谷",
+    url: "https://cworld0.com/",
+    avatar: "https://gravatar.loli.net/avatar/1ffe42aa45a6b1444a786b1f32dfa8aa?s=200",
     addDate: "2026-03-05",
     recommended: true
   },
@@ -262,7 +262,7 @@ export const links: LinkItem[] = [
     url: "https://blog.jsoftstudio.top/",
     avatar: "https://blog.jsoftstudio.top/css/all/favicon.ico",
     addDate: "2026-02-20"
-  }
+  },
 ]
 
 // Special Links（不算友链的其他特别链接）
@@ -272,5 +272,11 @@ export const specialLinks: LinkItem[] = [
     description: 'The web framework for content-driven websites',
     url: 'https://astro.build/',
     avatar: 'https://avatars.githubusercontent.com/u/44914786?s=200&v=4'
-  }
+  },
+  {
+    name: 'Astro Theme Pure',
+    description: 'Stay hungry, stay foolish',
+    url: 'https://astro-pure.js.org/',
+    avatar: 'https://astro-pure.js.org/favicon/favicon.ico',
+  },
 ]
