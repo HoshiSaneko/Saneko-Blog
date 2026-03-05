@@ -18,7 +18,7 @@ export const programs: ProjectItem[] = [
     description: '轻量级桌面任务清单应用 - 简洁高效的个人任务管理工具',
     links: [
       { type: 'github', href: 'https://github.com/HoshiSaneko/T-DoList' },
-      { type: 'release', href: 'https://github.com/HoshiSaneko/T-DoList/releases/tag/v0.2.0' }
+      { type: 'release', href: 'https://github.com/HoshiSaneko/T-DoList/releases' }
     ]
   },
   {
@@ -26,6 +26,14 @@ export const programs: ProjectItem[] = [
     description: '智能博客封面生成器',
     links: [
       { type: 'github', href: 'https://github.com/HoshiSaneko/cover-gen' },
+    ]
+  },
+  {
+    name: 'git-commit-gen',
+    description: '利用LLM根据暂存区的代码变更自动生成符合 Conventional Commits 规范的提交信息',
+    links: [
+      { type: 'github', href: 'https://github.com/HoshiSaneko/git-commit-gen' },
+      { type: 'release', href: 'https://github.com/HoshiSaneko/git-commit-gen/releases' }
     ]
   },
 ]

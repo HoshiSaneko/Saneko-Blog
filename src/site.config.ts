@@ -172,6 +172,12 @@ export const theme: ThemeUserConfig = {
       link: 'https://github.com/HoshiSaneko/cover-gen',
       image: '/src/assets/projects/2.avif'
     },
+    {
+      title: 'git-commit-gen',
+      description: '一个自动生成符合提交信息的工具',
+      link: 'https://github.com/HoshiSaneko/git-commit-gen',
+      image: '/src/assets/projects/3.avif'
+    },
   ],
 
 } as ThemeUserConfig & {
