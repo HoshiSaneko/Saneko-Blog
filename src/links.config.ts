@@ -263,6 +263,14 @@ export const links: LinkItem[] = [
     avatar: "https://blog.jsoftstudio.top/css/all/favicon.ico",
     addDate: "2026-02-20"
   },
+  {
+    name: "Tianli",
+    description: "自知之明是最可贵的知识！",
+    url: "https://blog.tianli0.top/",
+    avatar: "https://q2.qlogo.cn/headimg_dl?dst_uin=507249007&spec=640",
+    addDate: "2026-03-05",
+    recommended: true
+  }
 ]
 
 // Special Links（不算友链的其他特别链接）
