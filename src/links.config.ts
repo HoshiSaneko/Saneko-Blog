@@ -87,6 +87,14 @@ export function getLinkBadge(link: LinkItem | string): BadgeConfig & { days: num
 // 普通友链（包括推荐、失联等）
 export const links: LinkItem[] = [
   {
+    name: 'Astro Theme Pure',
+    description: 'Stay hungry, stay foolish',
+    url: 'https://astro-pure.js.org/',
+    avatar: 'https://astro-pure.js.org/favicon/favicon.ico',
+    addDate: "2026-03-05",
+    recommended: true
+  },
+  {
     name: "纸鹿摸鱼处",
     description: "纸鹿至麓不知路，支炉制露不止漉",
     url: "https://blog.zhilu.site/",
