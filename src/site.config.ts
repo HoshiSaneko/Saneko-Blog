@@ -605,7 +605,7 @@ export const integ: IntegrationUserConfig = {
     // Show meta info for comments
     showMeta: false,
     // Refer https://waline.js.org/en/guide/features/emoji.html
-    emoji: ['bmoji', 'weibo'],
+    emoji: ['bmoji', 'weibo', 'bilibili', 'qq', 'tw-emoji'],
     // Refer https://waline.js.org/en/reference/client/props.html
     additionalConfigs: {
       // search: false,
