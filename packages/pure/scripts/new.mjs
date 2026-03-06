@@ -15,7 +15,7 @@
  * Example:
  *   astro-pure new "Hello World"
  *   astro-pure new -l zh "你好，世界"
- *   astro-pure new -y "我的文章"  # 创建在 2026/02/我的文章/index.md
+ *   astro-pure new -y -m "我的文章"  # 按当前年月创建 blog/2026/03/我的文章/index.mdx，并复制默认封面
  *   astro-pure new -y --date 2025-12-25 "圣诞节文章"  # 指定日期创建
  */
 
@@ -58,13 +58,20 @@ function parseDate(dateString) {
   return date
 }
 
-/** get blog title slug */
+/** get blog title slug (for single-file name) */
 function getPostSlug(postTitle) {
   let slug = slugify(postTitle).toLocaleLowerCase()
   if (slug === '') {
     slug = 'untitled'
   }
   return slug
+}
+
+/** 文件夹名与标题一致，仅移除文件系统非法字符 */
+function getFolderName(postTitle) {
+  const name = postTitle.trim()
+  if (!name) return 'untitled'
+  return name.replace(/[\\/:*?"<>|]/g, '')
 }
 
 const HELP_INFO = `Usage: astro-pure new [options] <post-title>
@@ -81,10 +88,12 @@ Options:
 Example:
   astro-pure new "Hello World"
   astro-pure new -l zh "你好，世界"
-  astro-pure new -y "我的文章"  # 创建在 2026/02/我的文章/index.md
+  astro-pure new -y -m "我的文章"  # 创建 blog/2026/03/我的文章/index.mdx + 默认封面
   astro-pure new -y --date 2025-12-25 "圣诞节文章"  # 指定日期创建
 `
 const TARGET_DIR = 'src/content/blog/'
+/** 默认封面图路径（相对于项目根目录） */
+const DEFAULT_THUMBNAIL = 'src/assets/blogs/thumbnail.jpg'
 
 export default function main(args) {
   // 先手动提取 --date 参数，避免 minimist 解析错误
@@ -148,26 +157,29 @@ export default function main(args) {
   const fileName = getPostSlug(postTitle) + fileExtension
 
   let fullPath
+  /** 是否为「文件夹模式」（会生成 index 并可选复制封面） */
+  let folderPathForThumbnail = null
   if (parsedArgs.year) {
-    // 按年份和月份分类：创建 2026/02/文章标题/index.md
-    // 使用指定日期或当前日期
+    // 按年份和月份分类：创建 2026/03/文章标题/index.md，文件夹名与标题一致
     const year = targetDate.getFullYear()
     const month = String(targetDate.getMonth() + 1).padStart(2, '0') // 月份从 0 开始，需要 +1
-    const folderName = getPostSlug(postTitle)
+    const folderName = getFolderName(postTitle)
     const folderPath = path.join(TARGET_DIR, String(year), month, folderName)
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true })
     }
     const fileName = `index${fileExtension}`
     fullPath = path.join(folderPath, fileName)
+    folderPathForThumbnail = path.join(process.cwd(), folderPath)
   } else if (parsedArgs.folder) {
-    const folderName = getPostSlug(postTitle)
+    const folderName = getFolderName(postTitle)
     const folderPath = path.join(TARGET_DIR, folderName)
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true })
     }
     const fileName = `index${fileExtension}`
     fullPath = path.join(folderPath, fileName)
+    folderPathForThumbnail = path.join(process.cwd(), folderPath)
   } else {
     fullPath = path.join(TARGET_DIR, fileName)
   }
@@ -181,7 +193,8 @@ export default function main(args) {
 
   // 生成日期字符串（使用指定日期或当前日期）
   const dateString = parsedArgs.date ? getDate(parsedArgs.date) : getDate()
-  
+  const useThumbnail = folderPathForThumbnail != null
+
   let content = `---
 title: ${postTitle}
 description: 'Write your description here.'
@@ -189,14 +202,30 @@ publishDate: ${dateString}
 `
   content += parsedArgs.draft ? 'draft: true\n' : ''
   content += parsedArgs.lang ? `lang: ${parsedArgs.lang}\n` : ''
+  if (useThumbnail) {
+    content += `heroImage: { src: './thumbnail.jpg', color: '#A0A0A0' }
+`
+  }
   content += `tags:
-  - Example
-  - Technology
+  - Uncategorized
 ---
 
 Write your content here.
 `
 
   fs.writeFileSync(fullPath, content)
+
+  // 文件夹模式下复制默认封面图
+  if (folderPathForThumbnail) {
+    const srcThumb = path.join(process.cwd(), DEFAULT_THUMBNAIL)
+    const destThumb = path.join(folderPathForThumbnail, 'thumbnail.jpg')
+    if (fs.existsSync(srcThumb)) {
+      fs.copyFileSync(srcThumb, destThumb)
+      console.log('Default thumbnail copied to', path.relative(process.cwd(), destThumb))
+    } else {
+      console.warn(`Default thumbnail not found: ${DEFAULT_THUMBNAIL}, skip copy.`)
+    }
+  }
+
   console.log(`Post "${postTitle}" created at ${fullPath}`)
 }
