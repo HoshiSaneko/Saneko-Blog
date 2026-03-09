@@ -3,26 +3,13 @@ import { type CollectionEntry } from 'astro:content'
 
 import { getBlogCollection } from 'astro-pure/server'
 import { cn } from 'astro-pure/utils'
+import { docCategories, groupDocsByCategory, sortDocsByOrder } from './utils'
 
 export const prerender = true
 export const partial = true
 
 const docsCollection = (await getBlogCollection('docs')) as CollectionEntry<'docs'>[]
-// Group docs by id first part (setup, integrations, advanced, etc.)
-const docsByCate = docsCollection.reduce((acc: { [key: string]: typeof docsCollection }, doc) => {
-  const id = doc.id.split('/')[0]
-  if (!acc[id]) acc[id] = [] as typeof docsCollection
-  acc[id].push(doc)
-  return acc
-}, {})
-
-const docCategories: Record<string, string> = {
-  setup: '安装与配置',
-  integrations: '主题文档',
-  advanced: '进阶',
-  'custom-components': '自定义组件',
-  guides: '使用指南'
-}
+const docsByCate = groupDocsByCategory(docsCollection)
 
 type Props = {
   title?: boolean
@@ -42,9 +29,7 @@ const { title = true, class: className, ...props } = Astro.props
         <li>
           <h3 class='text-muted-foreground text-xs tracking-widest uppercase'>{title}</h3>
           <ul class='mt-2 flex flex-col'>
-            {docsByCate[id]
-              .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
-              .map((doc) => (
+            {sortDocsByOrder(docsByCate[id]).map((doc) => (
                 <li class='docs-item flex relative ms-2 px-3 py-1 text-foreground/75 transition-all rounded-2xl'>
                   <a class='flex-1 hover:text-foreground' href={`/docs/${doc.id}`}>
                     {doc.data.title}

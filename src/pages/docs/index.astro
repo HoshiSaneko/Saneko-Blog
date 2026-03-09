@@ -1,15 +1,22 @@
 ---
 import { Button, Icon } from 'astro-pure/user'
+import { getBlogCollection } from 'astro-pure/server'
 import { cn } from 'astro-pure/utils'
 import PageLayout from '@/layouts/BaseLayout.astro'
 import { integ } from '@/site-config'
 
 import DocsContents from './DocsContents.astro'
+import { getFirstDocId } from './utils'
 
 const meta = {
   title: 'Docs',
   description: 'Docs content documentation'
 }
+
+const docsCollection = await getBlogCollection('docs')
+const firstDocId = getFirstDocId(docsCollection)
+
+if (firstDocId) return Astro.redirect(`/docs/${firstDocId}`)
 ---
 
 <PageLayout {meta}>
