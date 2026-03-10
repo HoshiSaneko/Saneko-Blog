@@ -5,10 +5,10 @@ type Collections = CollectionEntry<CollectionKey>[]
 export const prod = import.meta.env.PROD
 
 /** Note: this function filters out draft posts based on the environment */
-export async function getBlogCollection(contentType: CollectionKey = 'blog') {
-  return await getCollection(contentType, ({ data }: CollectionEntry<typeof contentType>) => {
+export async function getBlogCollection<T extends CollectionKey = 'blog'>(contentType: T = 'blog' as T) {
+  return await getCollection(contentType, ({ data }: CollectionEntry<T>) => {
     // Not in production & draft is not false
-    return prod ? !data.draft : true
+    return prod ? !(data as any).draft : true
   })
 }
 
