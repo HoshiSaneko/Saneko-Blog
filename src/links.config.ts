@@ -215,10 +215,10 @@ export const links: LinkItem[] = [
     disconnected: true
   },
   {
-    name: "SatouのBlog",
-    description: "彼女の愛は、甘くて痛い",
-    url: "https://www.matsusatou.top/",
-    avatar: "https://github.com/SokiSama/picked/blob/main/avatar.jpg?raw=true",
+    name: "SokiのBlog",
+    description: "月下彼岸花",
+    url: "https://www.soki.moe",
+    avatar: "https://cdn.jsdelivr.net/gh/SokiSama/picked@main/avatar.jpg",
     addDate: "2025-10-15"
   },
   {
