@@ -225,7 +225,7 @@ export const links: LinkItem[] = [
     name: "阿叶Ayeez的小站",
     description: "记录学习历程，记录美好生活",
     url: "https://blog.Ayeez.cn",
-    avatar: "https://blog.ayeez.cn/imgs/photo.jpg",
+    avatar: "https://qiniu.ayeez.cn/avatar.jpg",
     addDate: "2025-11-15"
   },
   {
