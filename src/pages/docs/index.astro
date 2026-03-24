@@ -16,7 +16,7 @@ const meta = {
 const docsCollection = await getBlogCollection('docs')
 const firstDocId = getFirstDocId(docsCollection)
 
-if (firstDocId) return Astro.redirect(`/docs/${firstDocId}`)
+if (firstDocId) return Astro.redirect(`/docs/${firstDocId}`, 302)
 ---
 
 <PageLayout {meta}>
