@@ -1,27 +1,34 @@
 ---
 // https://waline.js.org/en/guide/features/pageview.html#use-alone
 import config from '@/site-config'
+
+interface Props {
+  path?: string
+}
+
+const { path = Astro.url.pathname } = Astro.props
 ---
 
 <script
   is:inline
   type='module'
   data-astro-rerun
-  define:vars={{ npmCDN: config.npmCDN, walineServer: config.integ.waline.server }}
+  define:vars={{ npmCDN: config.npmCDN, walineServer: config.integ.waline.server, pagePath: path }}
 >
   async function loadPageview() {
     try {
       const pageview = await import(`${npmCDN}/@waline/client@v3/dist/pageview.js`)
       const el = document.querySelector('.waline-pageview-count')
       if (el) {
-        pageview.pageviewCount({
+        return pageview.pageviewCount({
           serverURL: walineServer,
-          path: window.location.pathname
+          path: pagePath || window.location.pathname
         })
       }
     } catch (e) {
       console.error('Failed to load Waline pageview:', e)
     }
+    return () => {}
   }
 
   const abort = await loadPageview()

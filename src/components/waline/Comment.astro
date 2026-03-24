@@ -5,12 +5,12 @@ import '@waline/client/style'
 
 import { cn } from 'astro-pure/utils'
 
-const { class: className } = Astro.props
+const { class: className, path } = Astro.props
 ---
 
 {
   config.integ.waline.enable && (
-    <comment-component>
+    <comment-component data-path={path}>
       <div id='waline' class={cn('not-prose', className)}>
         Comment seems to stuck. Try to refresh?✨
       </div>
@@ -45,6 +45,7 @@ const { class: className } = Astro.props
       walineInit({
         el: '#waline',
         serverURL: walineConfig.server || '',
+        path: this.dataset.path || window.location.pathname,
         emoji,
         reaction: ['/icons/heart-item.svg'],
         ...walineConfig.additionalConfigs

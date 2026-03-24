@@ -6,11 +6,12 @@ interface Props {
   view?: boolean
   comment?: boolean
   class?: string
+  path?: string
 }
 
-const { view, comment, class: className, ...props } = Astro.props
+const { view, comment, class: className, path: propPath, ...props } = Astro.props
 
-const path = Astro.url.pathname
+const path = propPath || Astro.url.pathname
 ---
 
 <div class={cn('text-base text-sm text-muted-foreground', className)} {...props}>
@@ -27,4 +28,4 @@ const path = Astro.url.pathname
   }
 </div>
 
-{view && !comment && <Pageview />}
+{view && !comment && <Pageview path={path} />}
