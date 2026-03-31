@@ -270,6 +270,13 @@ export const links: LinkItem[] = [
     avatar: "https://q2.qlogo.cn/headimg_dl?dst_uin=507249007&spec=640",
     addDate: "2026-03-05",
     recommended: true
+  },
+  {
+    name: "NNNullptr",
+    description: "数学生的复古风个人站",
+    url: "https://xnmoe.com",
+    avatar: "https://www.xnmoe.com/assets/images/pfp.png",
+    addDate: "2026-03-27"
   }
 ]
 
